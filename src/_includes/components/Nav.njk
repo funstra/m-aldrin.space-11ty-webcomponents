@@ -1,0 +1,171 @@
+<template id="template-f-nav">
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    :host {
+      pointer-events: none;
+    }
+    :host([state="open"]) nav {
+    }
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      /* padding: 0rem; */
+      margin: 0.5rem;
+      width: max-content;
+    }
+    :host([state="open"]) .links {
+      transform: translateY(0px) scaleY(1);
+      opacity: 1;
+      pointer-events: all;
+      transition-delay: 25ms, 0ms;
+    }
+    a {
+      width: max-content;
+      color: currentColor;
+    }
+    .links {
+      opacity: 0;
+      width: max-content;
+      padding: 1rem;
+
+      box-shadow: 0 0 12px 2px hsl(0 0% 0% / 0.1);
+      transform: translateY(-4px) scaleY(1);
+
+      background-color: white;
+
+      transition-property: transform, opacity;
+      transition-duration: 75ms;
+      transition-delay: 0ms, 50ms;
+      display: flex;
+      flex-direction: column;
+
+      pointer-events: none;
+    }
+    button {
+      pointer-events: all;
+      width: max-content;
+      color: inherit;
+      background-color: transparent;
+      padding: 0.0625rem;
+      border-style: none;
+      border-radius: 2px;
+      border-color: black;
+      background-color: white;
+      cursor: pointer;
+    }
+    svg {
+      fill: currentColor;
+      width: 10px;
+      height: 30px;
+      display: block;
+    }
+  </style>
+  {% include "global.njk" %}
+
+  <nav>
+    <button>
+      <svg viewBox="0 0 10 30" preserveAspectRatio="xMidYMid">
+        <circle cx="5" cy="5" r="3" />
+        <circle cx="5" cy="15" r="3" />
+        <circle cx="5" cy="25" r="3" />
+      </svg>
+    </button>
+    <div class="links">
+      <a href="/">home</a>
+      <a href="/work">work</a>
+      <a href="/about">about</a>
+    </div>
+  </nav>
+</template>
+
+<script>
+  customElements.define(
+    "f-nav",
+    class customElement extends HTMLElement {
+      static get observedAttributes() {
+        return ["state"];
+      }
+      constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        const template = document.querySelector("#template-f-nav");
+        const root = this;
+        this.shadowRoot.append(template.content.cloneNode(true));
+        const nav = root.shadowRoot.querySelector("nav");
+        const links = root.shadowRoot.querySelector(".links");
+        let state = this.getAttribute("state");
+
+        // handle state button
+        this.shadowRoot
+          .querySelector("button")
+          .addEventListener("click", function (e) {
+            e.stopPropagation();
+            switch (root.getAttribute("state")) {
+              case "open":
+                root.setAttribute("state", "close");
+                break;
+              case "close":
+                root.setAttribute("state", "open");
+                break;
+            }
+          });
+
+        this.shadowRoot
+          .querySelector(".links")
+          .addEventListener("click", function (e) {
+            if (e.target.tagName === "A") {
+              e.preventDefault();
+              root.dispatchEvent(
+                new CustomEvent("f-nav:routing", {
+                  detail: {
+                    pathname: e.target.pathname,
+                    href: e.target.href,
+                  },
+                  bubbles: true,
+                  composed: true,
+                })
+              );
+              // console.log(e.target.href);
+              // location.pathname =
+              //   e.target.pathname !== "/"
+              //     ? e.target.pathname + "/"
+              //     : e.target.pathname;
+            }
+          });
+
+        function swap(e) {
+          if (e.target !== links && e.target !== root) {
+            console.log(e.target);
+            root.setAttribute("state", "close");
+          }
+        }
+        this.handleStateCange = function () {
+          if (root.getAttribute("state") === "open") {
+            // console.log("add swap");
+            window.addEventListener("click", swap);
+          } else {
+            // console.log("remove swap");
+            window.removeEventListener("click", swap);
+          }
+        };
+      }
+      connectedCallback() {}
+      diconnectedCallback() {}
+      attributeChangedCallback(name, oldValue, newValue) {
+        switch (name) {
+          case "state":
+            // console.log(name);
+            // console.log(oldValue);
+            // console.log(newValue);
+            this.handleStateCange();
+            break;
+        }
+      }
+    }
+  );
+</script>

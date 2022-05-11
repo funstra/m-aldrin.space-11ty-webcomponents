@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Document</title>
+        <style>
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  html {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+</style>
+
+        <style>
+  body,
+  html {
+    height: 100%;
+  }
+  html {
+    background-color: hsl(var(--col-primary));
+    padding: 0.125rem;
+  }
+  body {
+    color: hsl(var(--col-blk));
+    border-radius: 3px;
+    padding: 0.125rem;
+    background-color: white;
+  }
+  body {
+    display: grid;
+    align-items: flex-start;
+    justify-items: flex-start;
+  }
+
+  body {
+    line-height: 1.5;
+    font-size: var(--step-1);
+  }
+
+  :where(h1, h2, h3) {
+    line-height: 1;
+  }
+  /* .prose:where(h1, h2, h3) {
+  margin-bottom: 0.5em;
+} */
+  :where(p, a, li, q, blockquote).black {
+  }
+  :where(h1, h2, h3).black {
+  }
+
+  h1 {
+    font-size: var(--step-7);
+  }
+  h2 {
+    font-size: var(--step-4);
+  }
+  :where(h1, h2) {
+  }
+  h3 {
+    font-size: var(--step-2);
+  }
+
+  hr {
+    --flow-gap: 2rem;
+    margin-top: var(--flow-gap, 1rem);
+    margin-bottom: var(--flow-gap, 1rem);
+  }
+
+  f-nav {
+    grid-row: 1;
+    grid-column: 1;
+    z-index: 10;
+  }
+  main {
+    height: 100%;
+    overflow: scroll;
+    grid-row: 1/3;
+    grid-column: 1/3;
+
+    padding-top: 3rem;
+  }
+  main.fetching {
+    transition: transform 2000ms;
+    transform: translateY(10%);
+  }
+
+  /* typescale */
+  /* @link https://utopia.fyi/type/calculator?c=384,16,1.2,1152,21,1.333,6,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,2xs-m|l-3xl */
+  :root {
+    --step--1: clamp(0.98rem, calc(0.76rem + 0.32vw), 0.83rem);
+    --step-0: clamp(1rem, calc(0.84rem + 0.65vw), 1.31rem);
+    --step-1: clamp(1.2rem, calc(0.93rem + 1.14vw), 1.75rem);
+    --step-2: clamp(1.44rem, calc(0.99rem + 1.86vw), 2.33rem);
+    --step-3: clamp(1.73rem, calc(1.04rem + 2.88vw), 3.11rem);
+    --step-4: clamp(2.07rem, calc(1.04rem + 4.31vw), 4.14rem);
+    --step-5: clamp(2.49rem, calc(0.97rem + 6.32vw), 5.52rem);
+    --step-6: clamp(2.99rem, calc(0.8rem + 9.12vw), 7.36rem);
+    --step-7: clamp(3.58rem, calc(0.47rem + 12.98vw), 9.82rem);
+  }
+  /* space scale */
+  /* @link https://utopia.fyi/space/calculator?c=384,16,1.2,1152,21,1.333,4,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,2xs-m|l-3xl */
+  :root {
+    --space-3xs: clamp(0.25rem, calc(0.22rem + 0.13vw), 0.31rem);
+    --space-2xs: clamp(0.5rem, calc(0.41rem + 0.39vw), 0.69rem);
+    --space-xs: clamp(0.75rem, calc(0.63rem + 0.52vw), 1rem);
+    --space-s: clamp(1rem, calc(0.84rem + 0.65vw), 1.31rem);
+    --space-m: clamp(1.5rem, calc(1.25rem + 1.04vw), 2rem);
+    --space-l: clamp(2rem, calc(1.69rem + 1.3vw), 2.63rem);
+    --space-xl: clamp(3rem, calc(2.53rem + 1.95vw), 3.94rem);
+    --space-2xl: clamp(4rem, calc(3.38rem + 2.6vw), 5.25rem);
+    --space-3xl: clamp(6rem, calc(5.06rem + 3.91vw), 7.88rem);
+
+    /* One-up pairs */
+    --space-3xs-2xs: clamp(0.25rem, calc(0.03rem + 0.91vw), 0.69rem);
+    --space-2xs-xs: clamp(0.5rem, calc(0.25rem + 1.04vw), 1rem);
+    --space-xs-s: clamp(0.75rem, calc(0.47rem + 1.17vw), 1.31rem);
+    --space-s-m: clamp(1rem, calc(0.5rem + 2.08vw), 2rem);
+    --space-m-l: clamp(1.5rem, calc(0.94rem + 2.34vw), 2.63rem);
+    --space-l-xl: clamp(2rem, calc(1.03rem + 4.04vw), 3.94rem);
+    --space-xl-2xl: clamp(3rem, calc(1.88rem + 4.69vw), 5.25rem);
+    --space-2xl-3xl: clamp(4rem, calc(2.06rem + 8.07vw), 7.88rem);
+
+    /* Custom pairs */
+    --space-2xs-m: clamp(0.5rem, calc(-0.25rem + 3.13vw), 2rem);
+    --space-l-3xl: clamp(2rem, calc(-0.94rem + 12.24vw), 7.88rem);
+  }
+  /* colors */
+  :root {
+    --hue: 50;
+    --hue-offset: 30;
+
+    --col-blk: calc(var(--hue)) 50% 15%;
+    --col-wht: calc(var(--hue)) 30% 97.5%;
+
+    --col-primary: var(--hue) 75% 70%;
+    --col-secondary: calc(var(--hue) - var(--hue-offset)) 20% 90%;
+    --col-ternary: calc(var(--hue) - var(--hue-offset) * 2) 75% 70%;
+  }
+  /* transition */
+  :root {
+    --transition-timing-mud: cubic-bezier(0.1, 0, 0.2, 2);
+    --transition-timing-pillow: cubic-bezier(0.2, 2, 0.3, 0.8);
+
+    --page-transition-duration: 125ms;
+  }
+
+  .slideIn,
+  .slideOut {
+    animation-duration: var(--page-transition-duration);
+  }
+  .slideIn {
+    animation-name: slideIn;
+  }
+  .slideOut {
+    animation-name: slideOut;
+  }
+  @keyframes slideIn {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+</style>
+
+    </head>
+    <body>
+        <f-nav state="close"></f-nav>
+        <main router:page="work">
+<h1>work</h1></main>
+        <template id="template-f-nav">
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    :host {
+      pointer-events: none;
+    }
+    :host([state="open"]) nav {
+    }
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      /* padding: 0rem; */
+      margin: 0.5rem;
+      width: max-content;
+    }
+    :host([state="open"]) .links {
+      transform: translateY(0px) scaleY(1);
+      opacity: 1;
+      pointer-events: all;
+      transition-delay: 25ms, 0ms;
+    }
+    a {
+      width: max-content;
+      color: currentColor;
+    }
+    .links {
+      opacity: 0;
+      width: max-content;
+      padding: 1rem;
+
+      box-shadow: 0 0 12px 2px hsl(0 0% 0% / 0.1);
+      transform: translateY(-4px) scaleY(1);
+
+      background-color: white;
+
+      transition-property: transform, opacity;
+      transition-duration: 75ms;
+      transition-delay: 0ms, 50ms;
+      display: flex;
+      flex-direction: column;
+
+      pointer-events: none;
+    }
+    button {
+      pointer-events: all;
+      width: max-content;
+      color: inherit;
+      background-color: transparent;
+      padding: 0.0625rem;
+      border-style: none;
+      border-radius: 2px;
+      border-color: black;
+      background-color: white;
+      cursor: pointer;
+    }
+    svg {
+      fill: currentColor;
+      width: 10px;
+      height: 30px;
+      display: block;
+    }
+  </style>
+  <style>
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  html {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+</style>
+
+
+  <nav>
+    <button>
+      <svg viewBox="0 0 10 30" preserveAspectRatio="xMidYMid">
+        <circle cx="5" cy="5" r="3" />
+        <circle cx="5" cy="15" r="3" />
+        <circle cx="5" cy="25" r="3" />
+      </svg>
+    </button>
+    <div class="links">
+      <a href="/">home</a>
+      <a href="/work">work</a>
+      <a href="/about">about</a>
+    </div>
+  </nav>
+</template>
+
+<script>
+  customElements.define(
+    "f-nav",
+    class customElement extends HTMLElement {
+      static get observedAttributes() {
+        return ["state"];
+      }
+      constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        const template = document.querySelector("#template-f-nav");
+        const root = this;
+        this.shadowRoot.append(template.content.cloneNode(true));
+        const nav = root.shadowRoot.querySelector("nav");
+        const links = root.shadowRoot.querySelector(".links");
+        let state = this.getAttribute("state");
+
+        // handle state button
+        this.shadowRoot
+          .querySelector("button")
+          .addEventListener("click", function (e) {
+            e.stopPropagation();
+            switch (root.getAttribute("state")) {
+              case "open":
+                root.setAttribute("state", "close");
+                break;
+              case "close":
+                root.setAttribute("state", "open");
+                break;
+            }
+          });
+
+        this.shadowRoot
+          .querySelector(".links")
+          .addEventListener("click", function (e) {
+            if (e.target.tagName === "A") {
+              e.preventDefault();
+              root.dispatchEvent(
+                new CustomEvent("f-nav:routing", {
+                  detail: {
+                    pathname: e.target.pathname,
+                    href: e.target.href,
+                  },
+                  bubbles: true,
+                  composed: true,
+                })
+              );
+              // console.log(e.target.href);
+              // location.pathname =
+              //   e.target.pathname !== "/"
+              //     ? e.target.pathname + "/"
+              //     : e.target.pathname;
+            }
+          });
+
+        function swap(e) {
+          if (e.target !== links && e.target !== root) {
+            console.log(e.target);
+            root.setAttribute("state", "close");
+          }
+        }
+        this.handleStateCange = function () {
+          if (root.getAttribute("state") === "open") {
+            // console.log("add swap");
+            window.addEventListener("click", swap);
+          } else {
+            // console.log("remove swap");
+            window.removeEventListener("click", swap);
+          }
+        };
+      }
+      connectedCallback() {}
+      diconnectedCallback() {}
+      attributeChangedCallback(name, oldValue, newValue) {
+        switch (name) {
+          case "state":
+            // console.log(name);
+            // console.log(oldValue);
+            // console.log(newValue);
+            this.handleStateCange();
+            break;
+        }
+      }
+    }
+  );
+</script>
+
+        <script src="/js/router.js" type="module"></script>
+    </body>
+</html>
