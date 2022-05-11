@@ -75,11 +75,11 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   src.elm.parentElement.append(dest.elm);
   // TODO, make this unhacky.
   // Wait one cycle to let the dom re-render before scrolling
-  setTimeout(() => {
-    dest.elm.scroll({
-      top: scrollTop,
-    });
-  }, 1);
+  // setTimeout(() => {
+  //   dest.elm.scroll({
+  //     top: scrollTop,
+  //   });
+  // }, 1);
 
   // Transition - -
   src.elm.classList.add("slideOut");
