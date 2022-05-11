@@ -1,0 +1,99 @@
+{% set height = '100%' %} {% set r = '50%' %}
+<svg height="{{ height }}" viewBox="0 0 256 256" preservAspectRatio="xMidYMid">
+  <defs>
+    <radialGradient
+      id="shade"
+      gradientTransform="translate(-0.4 -0.3) scale(1.25)"
+    >
+      <stop offset="5%" stop-color="hsl(var(--col-wht) / 0.1)" />
+      <stop offset="40%" stop-color="hsl(var(--col-primary) / 0.4)" />
+      <stop offset="100%" stop-color="hsl(var(--col-quadrary) / 0.9)" />
+    </radialGradient>
+    <radialGradient
+      id="gradient-ramp"
+      gradientTransform="translate(-0.4 -0.35) scale(1.25)"
+    >
+      <stop offset="10%" stop-color="black" />
+      <stop offset="60%" stop-color="white" />
+    </radialGradient>
+    <radialGradient
+      id="gradient-ramp-invert"
+      gradientTransform="translate(-0.4 -0.35) scale(1.25)"
+    >
+      <stop offset="10%" stop-color="white" />
+      <stop offset="60%" stop-color="black" />
+    </radialGradient>
+
+    <mask id="mask-blur" x="-30%" width="160%" y="-30%" height="160%">
+      <g transform="rotate(-35)" transform-origin="center">
+        <rect
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+          fill="url(#gradient-ramp)"
+        />
+      </g>
+    </mask>
+    <mask id="mask-blur-invert" x="-30%" width="160%" y="-30%" height="160%">
+      <g transform="rotate(-35)" transform-origin="center">
+        <rect
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+          fill="url(#gradient-ramp-invert)"
+        />
+      </g>
+    </mask>
+    <filter id="filter-lens-blur" x="-30%" y="-30%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feTurbulence
+        type="turbulence"
+        baseFrequency="0.1"
+        numOctaves="3"
+        result="noise-smal"
+        seed="1"
+      />
+      <feTurbulence
+        type="turbulence"
+        baseFrequency="0.02"
+        numOctaves="2"
+        result="noise-large"
+        seed="5"
+      />
+      <feComposite
+        in="noise-smal"
+        in2="noise-large"
+        operator="arithmetic"
+        k2="0.5"
+        k3="1"
+      />
+      <feDisplacementMap
+        in="blur"
+        xChannelSelector="r"
+        yChannelSelector="g"
+        scale="20"
+      />
+    </filter>
+  </defs>
+  <g class="scale">
+    <g class="bob" transform="scale(0.75)" transform-origin="center">
+      <circle
+        mask="url(#mask-blur-invert)"
+        fill="url(#shade)"
+        cx="50%"
+        cy="50%"
+        r="{{ r }}"
+      />
+      <circle
+        mask="url(#mask-blur)"
+        filter="url(#filter-lens-blur)"
+        fill="url(#shade)"
+        cx="50%"
+        cy="50%"
+        r="{{ r }}"
+      />
+    </g>
+  </g>
+</svg>

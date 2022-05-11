@@ -95,7 +95,7 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
     src.elm.remove();
     dest.elm.classList.remove("slideIn");
     document.documentElement.classList.remove("time-out");
-  }, pageTransitionDuration);
+  }, pageTransitionDuration );
 
   document.documentElement.setAttribute("router:current-page", pathname);
   document.querySelector("title").innerHTML = destinationDocument.title;
