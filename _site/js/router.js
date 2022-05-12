@@ -99,10 +99,10 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
       src.elm.remove();
       setTimeout(() => {
         dest.elm.classList.remove("slideIn");
+        document.documentElement.setAttribute("router:current-page", pathname);
       }, pageTransitionDuration);
     }, pageTransitionDuration);
 
-    document.documentElement.setAttribute("router:current-page", pathname);
     document.querySelector("title").innerHTML = destinationDocument.title;
     document.querySelector("f-nav").setAttribute("state", "close");
     document.querySelector("f-nav").setAttribute("route", dest.val);

@@ -8,8 +8,7 @@
     :host {
       pointer-events: none;
     }
-    :host([state="open"]) nav {
-    }
+    :host([state="open"]) nav {}
     nav {
       position: relative;
       display: flex;
@@ -57,10 +56,10 @@
       pointer-events: none;
     }
     .links a[aria-current="page"] svg {
-      color: hsl(var(--col-primary));
+      color: hsl(var(--col-ternary));
     }
     .links a:hover span {
-      color: hsl(var(--col-primary));
+      color: hsl(var(--col-ternary));
     }
     .links a svg {
       fill: none;
@@ -102,19 +101,21 @@
       background-color: hsl(var(--col-wht) / 0.75);
       opacity: 0;
       z-index: -1;
+      transition: opacity 125ms ease-out;
     }
     :host([state="open"]) #nav-overlay {
       opacity: 1;
     }
   </style>
-  {# {% include "global.njk" %} #} {% import "components/Navicons.njk" as icons
-  %}
+  {# {% include "global.njk" %} #}
+  {% import "components/Navicons.njk" as icons
+ %}
   <nav>
     <button>
       <svg viewBox="0 0 10 30" preserveAspectRatio="xMidYMid">
-        <circle cx="5" cy="5" r="3" />
-        <circle cx="5" cy="15" r="3" />
-        <circle cx="5" cy="25" r="3" />
+        <circle cx="5" cy="5" r="3"/>
+        <circle cx="5" cy="15" r="3"/>
+        <circle cx="5" cy="25" r="3"/>
       </svg>
     </button>
     <div class="links">
@@ -136,88 +137,95 @@
 </template>
 
 <script>
-  customElements.define(
-    "f-nav",
-    class customElement extends HTMLElement {
-      static get observedAttributes() {
-        return ["state", "route"];
-      }
-      constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        const template = document.querySelector("#template-f-nav");
-        const root = this;
-        this.shadowRoot.append(template.content.cloneNode(true));
-        const nav = root.shadowRoot.querySelector("nav");
-        const links = root.shadowRoot.querySelector(".links");
-        let state = this.getAttribute("state");
+  customElements.define("f-nav", class customElement extends HTMLElement {
+    static get observedAttributes() {
+      return ["state", "route"];
+    }
+    constructor() {
+      super();
+      this.attachShadow({mode: "open"});
+      const template = document.querySelector("#template-f-nav");
+      const root = this;
+      this
+        .shadowRoot
+        .append(template.content.cloneNode(true));
+      const nav = root
+        .shadowRoot
+        .querySelector("nav");
+      const links = root
+        .shadowRoot
+        .querySelector(".links");
+      let state = this.getAttribute("state");
 
-        // handle state button
-        this.shadowRoot
-          .querySelector("button")
-          .addEventListener("click", function (e) {
-            e.stopPropagation();
-            switch (root.getAttribute("state")) {
-              case "open":
-                root.setAttribute("state", "close");
-                break;
-              case "close":
-                root.setAttribute("state", "open");
-                break;
-            }
-          });
-
-        this.shadowRoot
-          .querySelector(".links")
-          .addEventListener("click", function (e) {
-            if (e.target.tagName === "A") {
-              e.preventDefault();
-              root.dispatchEvent(
-                new CustomEvent("f-nav:routing", {
-                  detail: {
-                    pathname: e.target.pathname,
-                    href: e.target.href,
-                  },
-                  bubbles: true,
-                  composed: true,
-                })
-              );
-              // console.log(e.target.href);
-              // location.pathname =
-              //   e.target.pathname !== "/"
-              //     ? e.target.pathname + "/"
-              //     : e.target.pathname;
-            }
-          });
-
-        function swap(e) {
-          if (e.target !== links && e.target !== root) {
-            console.log(e.target);
-            root.setAttribute("state", "close");
+      // handle state button
+      this
+        .shadowRoot
+        .querySelector("button")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          switch (root.getAttribute("state")) {
+            case "open":
+              root.setAttribute("state", "close");
+              break;
+            case "close":
+              root.setAttribute("state", "open");
+              break;
           }
+        });
+
+      this
+        .shadowRoot
+        .querySelector(".links")
+        .addEventListener("click", function (e) {
+          if (e.target.tagName === "A") {
+            e.preventDefault();
+            root.dispatchEvent(new CustomEvent("f-nav:routing", {
+              detail: {
+                pathname: e.target.pathname,
+                href: e.target.href
+              },
+              bubbles: true,
+              composed: true
+            }));
+            // console.log(e.target.href);
+            // location.pathname =
+            //   e.target.pathname !== "/"
+            //     ? e.target.pathname + "/"
+            //     : e.target.pathname;
+          }
+        });
+
+      function swap(e) {
+        if (e.target !== links && e.target !== root) {
+          console.log(e.target);
+          root.setAttribute("state", "close");
         }
-        this.handleStateCange = function () {
-          if (root.getAttribute("state") === "open") {
-            // console.log("add swap");
-            window.addEventListener("click", swap);
-          } else {
-            // console.log("remove swap");
-            window.removeEventListener("click", swap);
-          }
-        };
       }
-      connectedCallback() {}
-      diconnectedCallback() {}
-      attributeChangedCallback(name, oldValue, newValue) {
-        switch (name) {
-          case "state":
-            // console.log(name);
-            // console.log(oldValue);
-            // console.log(newValue);
-            this.handleStateCange();
-            break;
-          case "route":
-            this.shadowRoot.querySelectorAll(".links a").forEach(a => {
+      this.handleStateCange = function () {
+        if (root.getAttribute("state") === "open") {
+          // console.log("add swap");
+          window.addEventListener("click", swap);
+        } else {
+          // console.log("remove swap");
+          window.removeEventListener("click", swap);
+        }
+      };
+    }
+    connectedCallback() {}
+    diconnectedCallback() {}
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case "state":
+          // console.log(name);
+          // console.log(oldValue);
+          // console.log(newValue);
+          this.handleStateCange();
+          break;
+        case "route":
+          this
+            .shadowRoot
+            .querySelectorAll(".links a")
+            .forEach(a => {
               console.log(a.pathname.slice(1));
               console.log(newValue);
               if (a.pathname.slice(1) === newValue) {
@@ -227,9 +235,8 @@
                 a.removeAttribute("aria-current");
               }
             });
-            break;
-        }
+          break;
       }
     }
-  );
+  });
 </script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" router:current-page="">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,9 +68,10 @@
   f-nav[state="open"] + main {
     pointer-events: none;
   }
+  main{
+  }
   f-nav[state="open"] + main {
-    text-shadow: 1px 0 2px #f005, -1px 0 2px #00f5,0 0 6px hsl(var(--col-blk) / 0.75);
-    /* color: hsl(var(--col-wht) / 1); */
+    filter: blur(4px) grayscale(0.25);
   }
   main {
     width: 100%;
@@ -82,7 +83,18 @@
 
     will-change: opacity, transform;
 
+    /* padding-top: 3rem; */
+  }
+  main:not([router\:page=""]) {
     padding-top: 3rem;
+  }
+  main[router\:page=""] {
+    height: 100%;
+    display: grid;
+    overflow: hidden;
+    grid-template-rows: 1fr auto;
+  }
+  main[router\:page=""] {
   }
   main.fetching {
     /* transition: transform 2000ms;
@@ -128,6 +140,9 @@
   svg {
     display: block;
     max-width: 100%;
+  }
+  svg {
+    fill: currentColor;
   }
 
   /* typescale */
@@ -227,6 +242,26 @@
       opacity: 0;
     }
   }
+
+  f-nav[state="open"] + main[router\:page=""] svg .cube {
+    animation-play-state: paused;
+  }
+
+  main[router\:page=""] svg .cube {
+    animation-name: bob;
+    animation-duration: var(--speed);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+  }
+  @keyframes bob {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(var(--offset-x, 1px), var(--offset-y, 4px));
+    }
+  }
 </style>
 
     </head>
@@ -235,13 +270,242 @@
             <f-nav state="close" route=""></f-nav>
             <main router:page="">
 
-<h1>ok</h1>
-<p>yep
-ok</p>
-<h3>what</h3>
-<h4>mmm</h4>
-<h1>ooo</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit excepturi similique ipsum, adipisci quas praesentium. Natus odio tempore perspiciatis quaerat distinctio, quia eius, perferendis aliquam eum maxime molestiae. Neque eligendi dolore nihil, quam eaque ipsam sequi quis accusantium ullam veniam, dolorem quasi cupiditate quos, aliquid assumenda non nostrum ratione cumque quod? Accusamus modi porro delectus dolorum dignissimos? Facilis alias voluptatibus nostrum velit tenetur sint totam fugiat vero. Voluptas beatae sequi magni sunt voluptate quo alias expedita repellendus quisquam dicta ex neque dolorem optio doloremque minima veritatis corporis excepturi eos hic, eius delectus voluptatibus? Error ratione corporis explicabo sit excepturi vel debitis nihil sed iusto similique dignissimos optio ea maiores quos doloremque ut consequuntur officia nisi voluptatem minima, nostrum totam. Et aspernatur corporis consequatur culpa rerum quas unde, magnam officia dolorem voluptates sit velit. Blanditiis nihil laboriosam quae asperiores recusandae qui soluta eaque aperiam unde tempore voluptatibus, natus dolore. Culpa expedita similique excepturi sunt fugit quas voluptate, harum molestias totam? Obcaecati nemo facilis autem, ipsam, molestias in officiis aliquam vel perferendis non, veritatis minima sed vero accusamus praesentium. Ex reiciendis sapiente, quam atque neque nostrum repudiandae? Sapiente ratione vero iusto veniam repudiandae eligendi assumenda accusantium reiciendis tempora corrupti repellendus placeat officiis beatae quod error nemo distinctio debitis quae optio maxime, earum illum? Perferendis repudiandae, dicta quia, modi aliquam, cupiditate enim obcaecati minima sequi beatae voluptatum dolores. Culpa iusto excepturi quia quam totam nam consequuntur et dolorum soluta tenetur ullam ut suscipit, non perspiciatis enim sint recusandae veniam eius dolores accusantium. Quia amet, iure fugiat quibusdam eligendi ut labore voluptas cumque delectus molestiae eius, odit eaque error quod similique sint dolor quidem quis dolorum itaque id officia nostrum, qui illum! Qui, magni accusantium! Provident reprehenderit autem labore accusamus quis blanditiis excepturi, molestias impedit repellat! Repellendus molestiae nostrum aliquam voluptates ipsum expedita odio?</p></main>
+
+<svg width="100%" height="100%" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid" 
+style="overflow: visible; grid-row: 1/3;grid-column: 1/3;" >
+    <g transform="translate(144 -64) rotate(60) translate(0 0)">
+        
+            <g transform="translate(0 0)">
+                
+                    <g class="cube" style="--speed:9s;--offset-y:2px;--offset-x:7px">
+                        <g  transform="translate(0 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+                    <g class="cube" style="--speed:16s;--offset-y:-4px;--offset-x:3px">
+                        <g  transform="translate(85.33333333333333 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+                    <g class="cube" style="--speed:6s;--offset-y:8px;--offset-x:3px">
+                        <g  transform="translate(170.66666666666666 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+            </g>
+        
+            <g transform="translate(42.666666666666664 71.11111111111111)">
+                
+                    <g class="cube" style="--speed:6s;--offset-y:-2px;--offset-x:4px">
+                        <g  transform="translate(0 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+                    <g class="cube" style="--speed:12s;--offset-y:-4px;--offset-x:3px">
+                        <g  transform="translate(85.33333333333333 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+                    <g class="cube" style="--speed:16s;--offset-y:-2px;--offset-x:4px">
+                        <g  transform="translate(170.66666666666666 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+            </g>
+        
+            <g transform="translate(0 142.22222222222223)">
+                
+                    <g class="cube" style="--speed:12s;--offset-y:-2px;--offset-x:-2px">
+                        <g  transform="translate(0 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+                    <g class="cube" style="--speed:12s;--offset-y:-4px;--offset-x:-6px">
+                        <g  transform="translate(85.33333333333333 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+                    <g class="cube" style="--speed:3s;--offset-y:-4px;--offset-x:1px">
+                        <g  transform="translate(170.66666666666666 0)" fill="hsl(var(--col-quadrary))" >
+                            <g transform="scale(1.3333333333333333)">
+                                <polygon
+                      transform="skewY(30)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.75"
+/>
+                                <polygon
+                      transform="skewY(-30) translate(32 37)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+/>
+                                <polygon
+                      transform="scale(1.41,.82) rotate(45) translate(0.1 -32)"
+                      points="
+                            0,0 32,0 32,32 0,32"
+                      fill-opacity="0.3"
+/>
+                            </g>
+                        </g>
+                    </g>
+                
+            </g>
+        
+    </g>
+</svg>
+<h1 style="grid-row: 2;grid-column: 1;align-self: flex-end; color: hsl(var(--col-ternary));">mkj</h1></main>
         </div>
         <template id="template-f-nav">
   <style>
@@ -253,8 +517,7 @@ ok</p>
     :host {
       pointer-events: none;
     }
-    :host([state="open"]) nav {
-    }
+    :host([state="open"]) nav {}
     nav {
       position: relative;
       display: flex;
@@ -302,10 +565,10 @@ ok</p>
       pointer-events: none;
     }
     .links a[aria-current="page"] svg {
-      color: hsl(var(--col-primary));
+      color: hsl(var(--col-ternary));
     }
     .links a:hover span {
-      color: hsl(var(--col-primary));
+      color: hsl(var(--col-ternary));
     }
     .links a svg {
       fill: none;
@@ -347,18 +610,20 @@ ok</p>
       background-color: hsl(var(--col-wht) / 0.75);
       opacity: 0;
       z-index: -1;
+      transition: opacity 125ms ease-out;
     }
     :host([state="open"]) #nav-overlay {
       opacity: 1;
     }
   </style>
-   
+  
+  
   <nav>
     <button>
       <svg viewBox="0 0 10 30" preserveAspectRatio="xMidYMid">
-        <circle cx="5" cy="5" r="3" />
-        <circle cx="5" cy="15" r="3" />
-        <circle cx="5" cy="25" r="3" />
+        <circle cx="5" cy="5" r="3"/>
+        <circle cx="5" cy="15" r="3"/>
+        <circle cx="5" cy="25" r="3"/>
       </svg>
     </button>
     <div class="links">
@@ -405,88 +670,95 @@ ok</p>
 </template>
 
 <script>
-  customElements.define(
-    "f-nav",
-    class customElement extends HTMLElement {
-      static get observedAttributes() {
-        return ["state", "route"];
-      }
-      constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        const template = document.querySelector("#template-f-nav");
-        const root = this;
-        this.shadowRoot.append(template.content.cloneNode(true));
-        const nav = root.shadowRoot.querySelector("nav");
-        const links = root.shadowRoot.querySelector(".links");
-        let state = this.getAttribute("state");
+  customElements.define("f-nav", class customElement extends HTMLElement {
+    static get observedAttributes() {
+      return ["state", "route"];
+    }
+    constructor() {
+      super();
+      this.attachShadow({mode: "open"});
+      const template = document.querySelector("#template-f-nav");
+      const root = this;
+      this
+        .shadowRoot
+        .append(template.content.cloneNode(true));
+      const nav = root
+        .shadowRoot
+        .querySelector("nav");
+      const links = root
+        .shadowRoot
+        .querySelector(".links");
+      let state = this.getAttribute("state");
 
-        // handle state button
-        this.shadowRoot
-          .querySelector("button")
-          .addEventListener("click", function (e) {
-            e.stopPropagation();
-            switch (root.getAttribute("state")) {
-              case "open":
-                root.setAttribute("state", "close");
-                break;
-              case "close":
-                root.setAttribute("state", "open");
-                break;
-            }
-          });
-
-        this.shadowRoot
-          .querySelector(".links")
-          .addEventListener("click", function (e) {
-            if (e.target.tagName === "A") {
-              e.preventDefault();
-              root.dispatchEvent(
-                new CustomEvent("f-nav:routing", {
-                  detail: {
-                    pathname: e.target.pathname,
-                    href: e.target.href,
-                  },
-                  bubbles: true,
-                  composed: true,
-                })
-              );
-              // console.log(e.target.href);
-              // location.pathname =
-              //   e.target.pathname !== "/"
-              //     ? e.target.pathname + "/"
-              //     : e.target.pathname;
-            }
-          });
-
-        function swap(e) {
-          if (e.target !== links && e.target !== root) {
-            console.log(e.target);
-            root.setAttribute("state", "close");
+      // handle state button
+      this
+        .shadowRoot
+        .querySelector("button")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          switch (root.getAttribute("state")) {
+            case "open":
+              root.setAttribute("state", "close");
+              break;
+            case "close":
+              root.setAttribute("state", "open");
+              break;
           }
+        });
+
+      this
+        .shadowRoot
+        .querySelector(".links")
+        .addEventListener("click", function (e) {
+          if (e.target.tagName === "A") {
+            e.preventDefault();
+            root.dispatchEvent(new CustomEvent("f-nav:routing", {
+              detail: {
+                pathname: e.target.pathname,
+                href: e.target.href
+              },
+              bubbles: true,
+              composed: true
+            }));
+            // console.log(e.target.href);
+            // location.pathname =
+            //   e.target.pathname !== "/"
+            //     ? e.target.pathname + "/"
+            //     : e.target.pathname;
+          }
+        });
+
+      function swap(e) {
+        if (e.target !== links && e.target !== root) {
+          console.log(e.target);
+          root.setAttribute("state", "close");
         }
-        this.handleStateCange = function () {
-          if (root.getAttribute("state") === "open") {
-            // console.log("add swap");
-            window.addEventListener("click", swap);
-          } else {
-            // console.log("remove swap");
-            window.removeEventListener("click", swap);
-          }
-        };
       }
-      connectedCallback() {}
-      diconnectedCallback() {}
-      attributeChangedCallback(name, oldValue, newValue) {
-        switch (name) {
-          case "state":
-            // console.log(name);
-            // console.log(oldValue);
-            // console.log(newValue);
-            this.handleStateCange();
-            break;
-          case "route":
-            this.shadowRoot.querySelectorAll(".links a").forEach(a => {
+      this.handleStateCange = function () {
+        if (root.getAttribute("state") === "open") {
+          // console.log("add swap");
+          window.addEventListener("click", swap);
+        } else {
+          // console.log("remove swap");
+          window.removeEventListener("click", swap);
+        }
+      };
+    }
+    connectedCallback() {}
+    diconnectedCallback() {}
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case "state":
+          // console.log(name);
+          // console.log(oldValue);
+          // console.log(newValue);
+          this.handleStateCange();
+          break;
+        case "route":
+          this
+            .shadowRoot
+            .querySelectorAll(".links a")
+            .forEach(a => {
               console.log(a.pathname.slice(1));
               console.log(newValue);
               if (a.pathname.slice(1) === newValue) {
@@ -496,13 +768,11 @@ ok</p>
                 a.removeAttribute("aria-current");
               }
             });
-            break;
-        }
+          break;
       }
     }
-  );
+  });
 </script>
-
         <script src="/js/router.js" type="module"></script>
     </body>
 </html>

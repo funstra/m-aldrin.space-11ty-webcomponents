@@ -49,9 +49,10 @@
   f-nav[state="open"] + main {
     pointer-events: none;
   }
+  main{
+  }
   f-nav[state="open"] + main {
-    text-shadow: 1px 0 2px #f005, -1px 0 2px #00f5,0 0 6px hsl(var(--col-blk) / 0.75);
-    /* color: hsl(var(--col-wht) / 1); */
+    filter: blur(4px) grayscale(0.25);
   }
   main {
     width: 100%;
@@ -63,7 +64,18 @@
 
     will-change: opacity, transform;
 
+    /* padding-top: 3rem; */
+  }
+  main:not([router\:page=""]) {
     padding-top: 3rem;
+  }
+  main[router\:page=""] {
+    height: 100%;
+    display: grid;
+    overflow: hidden;
+    grid-template-rows: 1fr auto;
+  }
+  main[router\:page=""] {
   }
   main.fetching {
     /* transition: transform 2000ms;
@@ -109,6 +121,9 @@
   svg {
     display: block;
     max-width: 100%;
+  }
+  svg {
+    fill: currentColor;
   }
 
   /* typescale */
@@ -206,6 +221,26 @@
     100% {
       transform: translateX(3.5%);
       opacity: 0;
+    }
+  }
+
+  f-nav[state="open"] + main[router\:page=""] svg .cube {
+    animation-play-state: paused;
+  }
+
+  main[router\:page=""] svg .cube {
+    animation-name: bob;
+    animation-duration: var(--speed);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+  }
+  @keyframes bob {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(var(--offset-x, 1px), var(--offset-y, 4px));
     }
   }
 </style>
