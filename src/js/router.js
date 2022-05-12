@@ -53,7 +53,7 @@ const diffPage = async destination => {
 const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   const { pathname, href } = target;
 
-  document.querySelector('main').classList.add('fetching')
+  document.querySelector("main").classList.add("fetching");
 
   const destinationDocument = await getHTML(href);
   const [dest, src] = await diffPage(destinationDocument.page);
@@ -72,7 +72,9 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   }
 
   // prepend destination document to source parent
+
   src.elm.parentElement.append(dest.elm);
+  dest.elm.style.translate = "0 100%";
   // TODO, make this unhacky.
   // Wait one cycle to let the dom re-render before scrolling
   // setTimeout(() => {
@@ -81,28 +83,30 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   //   });
   // }, 1);
 
-  // Transition - -
-  src.elm.classList.add("slideOut");
-  dest.elm.classList.add("slideIn");
-
-  const pageTransitionDuration = parseFloat(
-    getComputedStyle(document.documentElement)
-      .getPropertyValue("--page-transition-duration")
-      .replace("ms", "")
-  );
-
   setTimeout(() => {
-    src.elm.remove();
-    dest.elm.classList.remove("slideIn");
-    document.documentElement.classList.remove("time-out");
-  }, pageTransitionDuration );
+    // Transition - -
+    src.elm.classList.add("slideOut");
+    dest.elm.style.translate = "";
+    dest.elm.classList.add("slideIn");
 
-  document.documentElement.setAttribute("router:current-page", pathname);
-  document.querySelector("title").innerHTML = destinationDocument.title;
-  document.querySelector("f-nav").setAttribute("state", "close");
-  document.dispatchEvent(
-    new CustomEvent("f-nav:done", { detail: { outside }, bubbles: true })
-  );
+    const pageTransitionDuration = parseFloat(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--page-transition-duration")
+        .replace("ms", "")
+    );
+
+    setTimeout(() => {
+      src.elm.remove();
+      setTimeout(() => {
+        dest.elm.classList.remove("slideIn");
+      }, pageTransitionDuration);
+    }, pageTransitionDuration);
+
+    document.documentElement.setAttribute("router:current-page", pathname);
+    document.querySelector("title").innerHTML = destinationDocument.title;
+    document.querySelector("f-nav").setAttribute("state", "close");
+    document.querySelector("f-nav").setAttribute("route", dest.val);
+  }, 1);
 };
 
 // handle click and f-nav events

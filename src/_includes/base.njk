@@ -10,8 +10,10 @@
         {% include "layout.njk" %}
     </head>
     <body>
-        <f-nav state="close"></f-nav>
-        <main router:page="{{ page.fileSlug }}">{{content | safe}}</main>
+        <div class="layout">
+            <f-nav state="close" route="{{page.fileSlug}}"></f-nav>
+            <main router:page="{{ page.fileSlug }}">{{content | safe}}</main>
+        </div>
         {% include "components/Nav.njk" %}
         <script src="/js/router.js" type="module"></script>
     </body>
